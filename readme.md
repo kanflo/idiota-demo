@@ -1,6 +1,6 @@
 ## Idiota, a silly way to deploy firmware upgrades
 
-Hi! If you are looking for an industrial grade firmware update solution, look elsewhere. I wrote one some time ago but it's locked in a git at a fortune 500 company.
+Hi! If you are looking for an industrial grade firmware update solution, look elsewhere. I wrote one some time ago but it's locked in a git at a Fortune 500 company.
 
 This is the insecure lite version given the time I had to implement an upgrade solution for the nodes in my home. All firmware images will live on a central upgrade server and nodes will from time to time query the server for the latest and greatest firmware.
 
