@@ -108,7 +108,7 @@ def add_firmware(dict, image):
 def get_fimware(dict):
     fw = None
     if not fw and "node_id" in dict:
-        if "hw_rev" in dict:
+        if "hw_rev" in dict and dict["hw_rev"] != "NULL":
             logging.info("Looking for node id %s and hw_rev %s" % (dict["node_id"], dict["hw_rev"]))
             try:
                 # Does SELECT COUNT - why...?
@@ -116,41 +116,25 @@ def get_fimware(dict):
                 # Throws IndexError - why...?
 #                fw = Firmware.get(Firmware.node_id == dict["node_id"] and Firmware.hw_rev == dict["hw_rev"]).order_by(Firmware.added_on.desc()).get()
                 logging.info("Found!")
-            except IndexError as e:
-                logging.info("peewee made a boo-boo")
-                #logging.error("Exception occurred", exc_info = True)
-                fw = None
             except Exception as e:
-#            except FirmwareDoesNotExist as e:
                 fw = None
-        if not fw:
+        if not fw and ("node_id" in dict and dict["node_id"] != "NULL"):
             logging.info("Looking for node id %s" % dict["node_id"])
             try:
                 #fw = Firmware.select().where(Firmware.node_id == dict["node_id"] and Firmware.hw_rev >> None).order_by(Firmware.added_on.desc()).dicts()
                 fw = Firmware.select().where(Firmware.node_id == dict["node_id"]).order_by(Firmware.added_on.desc()).get()
 #                fw = Firmware.select().where(Firmware.node_id == dict["node_id"] and Firmware.hw_rev >> None).order_by(Firmware.added_on.desc()).get()
                 logging.info("Found!")
-            except IndexError as e:
-                logging.info("peewee made a boo-boo")
-                #logging.error("Exception occurred", exc_info = True)
-                fw = None
             except Exception as e:
-#            except FirmwareDoesNotExist as e:
                 fw = None
-
-    if not fw and "node_type" in dict:
+    if not fw and "node_type" in dict and dict["node_type"] != "NULL":
         if "hw_rev" in dict:
             logging.info("Looking for node type %s and hw_rev %s" % (dict["node_type"], dict["hw_rev"]))
             try:
                 #fw = Firmware.select().where(Firmware.node_type == dict["node_type"] and Firmware.hw_rev == dict["hw_rev"]).order_by(Firmware.added_on.desc()).dicts()
                 fw = Firmware.select().where(Firmware.node_type == dict["node_type"] and Firmware.hw_rev == dict["hw_rev"]).order_by(Firmware.added_on.desc()).get()
                 logging.info("Found!")
-            except IndexError as e:
-                logging.info("peewee made a boo-boo")
-                #logging.error("Exception occurred", exc_info = True)
-                fw = None
             except Exception as e:
-#            except FirmwareDoesNotExist as e:
                 fw = None
         if not fw:
             logging.info("Looking for node type %s" % dict["node_type"])
@@ -158,23 +142,13 @@ def get_fimware(dict):
                 fw = Firmware.select().where(Firmware.node_type == dict["node_type"]).order_by(Firmware.added_on.desc()).get()
                 logging.info("Found!")
                 logging.info(fw.sha256)
-            except IndexError as e:
-                logging.info("peewee made a boo-boo")
-                #logging.error("Exception occurred", exc_info = True)
-                fw = None
             except Exception as e:
-                logging.error("Exception occurred", exc_info = True)
-#            except FirmwareDoesNotExist as e:
                 fw = None
-    if not fw and "sha256" in dict:
+    if not fw and "sha256" in dict and dict["sha256"] != "NULL":
         logging.info("Looking for sha256 %s" % dict["sha256"])
         try:
             fw = Firmware.select().where(Firmware.sha256 == dict["sha256"]).order_by(Firmware.added_on.desc()).get()
             logging.info("Found")
-        except IndexError as e:
-            logging.info("peewee made a boo-boo")
-            #logging.error("Exception occurred", exc_info = True)
-            fw = None
         except Exception as e:
             fw = None
 
